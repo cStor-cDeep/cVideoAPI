@@ -27,15 +27,21 @@ public class APITest {
         // 申请的APP_KEY字段，用来表示访问者身份
         String appkey = APP_KEY;
 
-        // 进行加密后的token。加密方法见apimd5()方法注释
-        String token = apimd5();
-        // 最终的 url
-        // 取视频流url
+
+         //Step 1 获取设备列表加密taken
+        String tokenTrees = apimd5Tree();      
+        // 取设备列表完整访问地址
+        String treeurl = "http://127.0.0.1:80/sso/api/v1/trees/client?timestamp=#{timestamp}&appkey=#{appkey}&token=#{tokenTrees}";
+  
+
+
+        //Step 2  获取视频url加密token
+        String tokenUrl = apimd5();
+        // 取视频流完整访问地址
         String url = "http://127.0.0.1:80/sso/api/v1/real/urls?id=10000000789&" +
-                "centertype=0&timestamp=#{timestamp}&appkey=#{appkey}&token=#{token}";
-        // 获取设备url
-        String url = "http://127.0.0.1:80/sso/api/v1/trees/client?timestamp=#{timestamp}&appkey=#{appkey}&token=#{token}";
-    }
+                "centertype=0&timestamp=#{timestamp}&appkey=#{appkey}&token=#{tokenUrl}";
+
+        }
 
 
     /**
@@ -60,6 +66,11 @@ public class APITest {
 
         // 3.APP_SECRET + 步骤2中的字符串进行MD5加密
         return encryToMD5(APP_SECRET + stringBuffer.toString() ) ;
+    }
+
+     public static  String apimd5Tree(){
+        StringBuffer stringBuffer = new StringBuffer();
+        return encryToMD5(APP_SECRET  ) ;
     }
 
 
